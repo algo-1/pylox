@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "pylox"
+version = "0.1.0"
+description = ""
+authors = ["Harold Karibiye <haroldkaribiye@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+flake8 = "^7.1.1"
+isort = "^5.13.2"
+mypy = "^1.11.2"
+pylint = "^3.2.7"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.3"
+faker = "^28.4.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
