@@ -28,13 +28,14 @@ def run_prompt():
         try:
             line = input("> ")
         except EOFError:
-            print("bye :)")
             break
 
         if not line:
             break
 
         run(line)
+
+    print("bye :)")
 
 
 if __name__ == "__main__":
