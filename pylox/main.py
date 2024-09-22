@@ -44,7 +44,6 @@ if __name__ == "__main__":
     match args:
         case args if len(args) > 2:
             print("Usage: pylox [script]")
-            sys.exit(64)
         case args if len(args) == 2:
             run_file(args[1])
         case _:
