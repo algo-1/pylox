@@ -7,5 +7,5 @@ class Scanner:
         self.source = source
         self.tokens: list[Token] = []
 
-    def scan_token(self) -> list[Token]:
+    def scan_tokens(self) -> list[Token]:
         pass

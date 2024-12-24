@@ -8,7 +8,7 @@ class Lox:
     @staticmethod
     def run(source: str):
         scanner = Scanner(source)
-        tokens: list[Token] = scanner.scan_token()
+        tokens: list[Token] = scanner.scan_tokens()
 
         print(source)
 
