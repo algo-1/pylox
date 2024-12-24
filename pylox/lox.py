@@ -18,17 +18,34 @@ class Lox:
             code = f.read()
             Lox.run(code)
 
+            # If there was an error, exit with status 65
+            if Lox.had_error:
+                exit(65)
+
     @staticmethod
     def run_prompt():
         while True:
             try:
-                code = input("> ")
-                if code == "exit":
+                line = input("> ")
+                if line == "exit":
                     print("Goodbye!")
                     break
 
-                Lox.run(code)
+                # Run the input
+                Lox.run(line)
+
+                # Reset the error flag
+                Lox.had_error = False
 
             except EOFError:
                 print("Goodbye!")
                 break
+
+    @staticmethod
+    def report(line: int, where: str, message: str):
+        print(f"[line {line}] Error {where}: {message}")
+        Lox.had_error = True
+
+    @staticmethod
+    def error(line: int, message: str):
+        Lox.report(line, "", message)
