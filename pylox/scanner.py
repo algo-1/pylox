@@ -4,12 +4,95 @@ from pylox.token import Token, TokenType
 
 class Scanner:
 
+    KEYWORDS = {
+        "and": TokenType.AND,
+        "class": TokenType.CLASS,
+        "else": TokenType.ELSE,
+        "false": TokenType.FALSE,
+        "for": TokenType.FOR,
+        "fun": TokenType.FUN,
+        "if": TokenType.IF,
+        "nil": TokenType.NIL,
+        "or": TokenType.OR,
+        "print": TokenType.PRINT,
+        "return": TokenType.RETURN,
+        "super": TokenType.SUPER,
+        "this": TokenType.THIS,
+        "true": TokenType.TRUE,
+        "var": TokenType.VAR,
+        "while": TokenType.WHILE,
+    }
+
     def __init__(self, source: str):
         self.source = source
         self.tokens: list[Token] = []
         self.start = 0
         self.current = 0
         self.line = 1
+
+    def peek(self) -> str:
+        if self.is_at_end():
+            return "\0"
+        return self.source[self.current]
+
+    def peek_next(self) -> str:
+        if self.current + 1 >= len(self.source):
+            return "\0"
+        return self.source[self.current + 1]
+
+    def is_digit(self, c: str) -> bool:
+        assert len(c) == 1, "is_digit only accepts a single character"
+        return "0" <= c <= "9"
+
+    def number(self):
+        while self.is_digit(self.peek()):
+            self.advance()
+
+        # Look for a fractional part.
+        if self.peek() == "." and self.is_digit(
+            self.peek_next()
+        ):  # "123.4" is valid but "123." is not
+
+            # Consume the "."
+            self.advance()
+
+            while self.is_digit(self.peek()):
+                self.advance()
+
+        self.add_token(TokenType.NUMBER, float(self.source[self.start : self.current]))
+
+    def string(self):
+        while self.peek() != '"' and not self.is_at_end():
+            # Handle multi-line strings.
+            if self.peek() == "\n":
+                self.line += 1
+            self.advance()
+
+        if self.is_at_end():
+            ErrorHandler.error(self.line, "Unterminated string.")
+
+        # The closing "
+        self.advance()
+
+        # Trim the surrounding quotes.
+        value = self.source[self.start + 1 : self.current - 1]
+        self.add_token(TokenType.STRING, value)
+
+    def is_alpha(self, c: str) -> bool:
+        assert len(c) == 1, "is_alpha only accepts a single character"
+        return ("a" <= c <= "z") or ("A" <= c <= "Z") or c == "_"
+
+    def is_alphanumeric(self, c: str) -> bool:
+        return self.is_alpha(c) or self.is_digit(c)
+
+    def identifier(self):
+        while self.is_alphanumeric(self.peek()):
+            self.advance()
+
+        text = self.source[self.start : self.current]
+        token_type = Scanner.KEYWORDS.get(text, TokenType.IDENTIFIER)
+
+        self.add_token(token_type)
 
     def is_at_end(self) -> bool:
         return self.current >= len(self.source)
@@ -72,7 +155,18 @@ class Scanner:
                     self.current += 1
             else:
                 self.add_token(TokenType.SLASH)
-
+        elif c in {" ", "\r", "\t"}:
+            # Ignore whitespace.
+            pass
+        elif c == "\n":
+            # Move to the next line.
+            self.line += 1
+        elif c == '"':
+            self.string()
+        elif self.is_digit(c):
+            self.number()
+        elif self.is_alpha(c):
+            self.identifier()
         else:
             ErrorHandler.error(self.line, "Unexpected character.")
 

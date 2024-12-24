@@ -1,0 +1,41 @@
+// https://benhoyt.com/writings/loxlox/#:~:text=quacks%0A//%206%0A//%20105-,Constraints,-So%20Lox%20doesn%E2%80%99t
+
+class ListNode {
+  init(value) {
+    this.value = value;
+    this.next = nil;
+    this.previous = nil;
+  }
+}
+
+class List {
+  init() {
+    this.head = nil;
+    this.tail = nil;
+    this._length = 0; // So getting the length is O(1)
+  }
+
+  append(value) {
+    var node = ListNode(value);
+    if (this.head == nil) {
+      this.head = node;
+      this.tail = node;
+    } else {
+      node.previous = this.tail;
+      this.tail.next = node;
+      this.tail = node;
+    }
+    this._length = this._length + 1;
+    return this;
+  }
+
+  // ...
+
+  // Extra multi-line Addition
+  "'
+
+    Grand!==&
+
+
+        '"
+}
