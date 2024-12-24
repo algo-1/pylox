@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "A Tree-walk interpreter for the Lox programming language"
 authors = ["Harold Karibiye <haroldkaribiye@gmail.com>"]
 readme = "README.md"
+packages = [{include = "pylox"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
