@@ -65,7 +65,7 @@ if __name__ == "__main__":
         "Expr",
         [
             "Binary   : Expr left, Token operator, Expr right",
-            "Grouping : Expr exprerssion",
+            "Grouping : Expr expression",
             "Literal  : object value",
             "Unary    : Token operator, Expr right",
         ],
