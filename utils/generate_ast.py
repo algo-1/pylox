@@ -11,7 +11,6 @@ def transform_param_from_c_style_to_python(param: str):
 
 
 def define_type(file: TextIOWrapper, base_name: str, class_name: str, fields: str):
-    print(fields)
     fields_list = fields.split(", ")
     params = ", ".join(map(transform_param_from_c_style_to_python, fields_list))
 
