@@ -18,7 +18,7 @@ def define_type(file: TextIOWrapper, base_name: str, class_name: str, fields: st
     file.write(
         f"""class {class_name}({base_name}):
 
-    def __init__(self, {params}):    
+    def __init__(self, {params}):
 """
     )
 
