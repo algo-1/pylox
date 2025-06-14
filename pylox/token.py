@@ -9,6 +9,7 @@ class TokenType(Enum):
     RIGHT_BRACE = auto()
     COMMA = auto()
     DOT = auto()
+    MINUS = auto()
     PLUS = auto()
     SEMICOLON = auto()
     SLASH = auto()
